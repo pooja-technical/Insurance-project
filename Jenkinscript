@@ -5,16 +5,15 @@ tools {
    maven 'M2_HOME' 
   }
 
-atages {
-
- stage('Git Chekout')  {
+stages {
+  stage('Git Chekout')  {
     steps {
          echo 'Cloning Code from github'
      git 'https://github.com/pooja-technical/Insurance-project'
           }
      }
 
-    stage('Code Build') {
+  stage('Code Build') {
        steps {
           echo 'Packaging the code'
       sh 'mvn install'
