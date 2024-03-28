@@ -20,3 +20,5 @@ atages {
       sh 'mvn install'
             }
      }
+  }
+}
