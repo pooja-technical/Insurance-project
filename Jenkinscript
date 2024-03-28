@@ -26,7 +26,7 @@ stages {
               }
   stage('Install and run Docker') {
       steps {
-        sh 'sudo apt-get install docker.io -y'
+        sh 'apt-get install docker.io -y'
         sh 'sudo systemctl enable docker'
                  }
            }
