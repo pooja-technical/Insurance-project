@@ -1,0 +1,16 @@
+- name: Docker configuration for deployment
+  hosts: all
+  become: true
+  connection: ssh
+  tasks:
+    - name: apt-update
+      command: apt-get update
+    - name: install Docker
+      command: apt-get install docker.io -y
+      become: yes
+    - name: enable docker
+      command: sudo systemctl enable docker
+      become: yes
+      become_user: root
+    - name: Running the container
+      command: doker run -d -p 8086:8081 poojajm/insurance-project:1
