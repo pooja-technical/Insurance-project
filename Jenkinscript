@@ -27,7 +27,7 @@ stages {
 
    stage('Creating a Docker Image') {
      steps  {
-        sh 'docker build -t poojajm/insurance-project:1'
+        sh 'docker build -t poojajm/insurance-project:1 .'
           }
     }
         }
