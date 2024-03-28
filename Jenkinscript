@@ -41,7 +41,7 @@ stages {
    stage('Docker Image Push')  {
      steps {
        sh 'docker push poojajm/insurance-project:1'
-         )
+         }
      }
   }
 }
