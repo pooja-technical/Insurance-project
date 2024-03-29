@@ -9,7 +9,7 @@ stages {
   stage('Git Chekout')  {
     steps {
          echo 'Cloning Code from github'
-     git 'https://github.com/pooja-technical/Insurance-project'
+     git branch: 'main', url: 'https://github.com/pooja-technical/Insurance-project'
           }
      }
 
@@ -19,5 +19,38 @@ stages {
       sh 'mvn install'
             }
      }
-  }
+  stage('Get HTTP Report')  {
+     steps {
+       publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/Insurance-project/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                    }
+              }
+
+   stage('Creating a Docker Image') {
+     steps  {
+        sh 'docker build -t poojajm/insurance-project:1 .'
+          }
+    }
+
+    stage('Adding Credentials for Dockerhub login')  {
+      steps {
+         withCredentials([usernamePassword(credentialsId: 'dockerlogin', passwordVariable: 'docker_passwd', usernameVariable: 'docker_name')]) {
+         sh 'docker login -u ${docker_name} -p ${docker_passwd}'
+                  }
+               }
+           }
+  
+      stage('Docker Image Push')  {
+         steps {
+            sh 'docker push poojajm/insurance-project:1'
+         }
+     }
+   
+
+    stage('Ansible configuration for app-deploy') {
+       steps  { 
+            ansiblePlaybook credentialsId: '940e6c54-62d5-488d-b9a0-59491f365972', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'playbook.yml'
+            }
+          }
+   }
 }
+
