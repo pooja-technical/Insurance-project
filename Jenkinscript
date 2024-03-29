@@ -34,44 +34,23 @@ stages {
     stage('Adding Credentials for Dockerhub login')  {
       steps {
          withCredentials([usernamePassword(credentialsId: 'dockerlogin', passwordVariable: 'docker_passwd', usernameVariable: 'docker_name')]) {
-        sh 'docker login -u ${docker_name} -p ${docker_passwd}'
+         sh 'docker login -u ${docker_name} -p ${docker_passwd}'
                   }
                }
            }
-   stage('Docker Image Push')  {
-     steps {
-       sh 'docker push poojajm/insurance-project:1'
+  
+      stage('Docker Image Push')  {
+         steps {
+            sh 'docker push poojajm/insurance-project:1'
          }
      }
-   stage('Regenerate SSH Key') {
-            steps {
-                script {
-                    // Execute shell commands to generate a new SSH key pair
-                    sh '''
-                        ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ''
-                    '''
-                }
-            }
-        }
-
-        stage('Copy Public Key to Target Host') {
-            steps {
-                script {
-                    // Execute shell command to copy the public key to the target host
-                    sh 'ssh-copy-id -i ~/.ssh/id_rsa.pub user@54.173.12.49'
-                    
-                }
-            }
-        }
-        
-        // Add additional stages for Ansible configuration, etc.
-    
+   
 
     stage('Ansible configuration for app-deploy') {
        steps  { 
-           ansiblePlaybook credentialsId: '', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'playbook.yml', vaultTmpPath: ''
-             }
-   }
-       
+            ansiblePlaybook credentialsId: 'ssh-connection', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'playbook.yml', vaultTmpPath: ''
+           
+                  }
+         }       
   }
 }
