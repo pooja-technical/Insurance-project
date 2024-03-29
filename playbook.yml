@@ -5,7 +5,6 @@
   tasks:
     - name: apt update
       command: apt-get update
-      warn: false
     - name: install Docker
       command: apt-get install docker.io -y
       become: yes
