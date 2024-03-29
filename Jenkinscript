@@ -48,7 +48,7 @@ stages {
 
     stage('Ansible configuration for app-deploy') {
        steps  { 
-             ansiblePlaybook credentialsId: 'e5e32dcc-d435-40b7-a041-b1caaa9b410f', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'playbook.yml', vaultTmpPath: '
+             ansiblePlaybook credentialsId: 'e5e32dcc-d435-40b7-a041-b1caaa9b410f', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'playbook.yml'
             }
           }
    }
