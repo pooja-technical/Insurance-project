@@ -3,13 +3,13 @@
   become: true
   connection: ssh
   tasks:
-    - name: apt-update
+    - name: apt update
       command: apt-get update
     - name: install Docker
       command: apt-get install docker.io -y
       become: yes
     - name: enable docker
-      command: sudo systemctl enable docker
+      command: systemctl enable docker
       become: yes
       become_user: root
     - name: Running the container
