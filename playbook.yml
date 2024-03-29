@@ -5,6 +5,7 @@
   tasks:
     - name: apt update
       command: apt-get update
+      warn: false
     - name: install Docker
       command: apt-get install docker.io -y
       become: yes
@@ -13,4 +14,4 @@
       become: yes
       become_user: root
     - name: Running the container
-      command: doker run -d -p 8086:8081 poojajm/insurance-project:1
+      command: docker run -d -p 8086:8081 poojajm/insurance-project:1
