@@ -1,5 +1,5 @@
 - name: Docker configuration for deployment
-  hosts: all
+  hosts: webservers
   become: true
   connection: ssh
   tasks:
